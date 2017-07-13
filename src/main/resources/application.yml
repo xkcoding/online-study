@@ -1,2 +1,7 @@
 server:
   port: 8081
+  context-path: /online-study
+spring:
+  mvc:
+    favicon:
+      enabled: false
