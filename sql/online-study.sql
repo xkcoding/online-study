@@ -11,6 +11,11 @@ CREATE TABLE `user_info` (
 	COMMENT '用户手机号',
 	`is_teacher`  TINYINT(3)  NOT NULL DEFAULT 0
 	COMMENT '是否为讲师，默认不是',
+	`ip`          VARCHAR(32) NOT NULL
+	COMMENT '登录IP',
+	`login_times` INT NOT NULL DEFAULT 0 COMMENT '总共登录次数',
+	`last_time`   TIMESTAMP   NOT NULL DEFAULT current_timestamp
+	COMMENT '上次登录时间',
 	`create_time` TIMESTAMP   NOT NULL DEFAULT current_timestamp
 	COMMENT '创建时间',
 	`update_time` TIMESTAMP   NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp
@@ -33,6 +38,8 @@ CREATE TABLE `course_master` (
 	COMMENT '类目编号',
 	`course_icon`        VARCHAR(512) NOT NULL
 	COMMENT '课程主缩略图',
+	`course_duration`    VARCHAR(32)  NOT NULL DEFAULT '0'
+	COMMENT '视频总时长',
 	`create_time`        TIMESTAMP    NOT NULL DEFAULT current_timestamp
 	COMMENT '创建时间',
 	`update_time`        TIMESTAMP    NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp
@@ -71,6 +78,8 @@ CREATE TABLE `course_detail` (
 	COMMENT '每集的详情缩略图',
 	`detail_url`         VARCHAR(512) NOT NULL
 	COMMENT '每集的播放地址',
+	`detail_duration`    VARCHAR(32)  NOT NULL DEFAULT '0'
+	COMMENT '每集的播放时长',
 	`create_time`        TIMESTAMP    NOT NULL DEFAULT current_timestamp
 	COMMENT '创建时间',
 	`update_time`        TIMESTAMP    NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp
@@ -81,16 +90,18 @@ CREATE TABLE `course_detail` (
 	COMMENT '课程详情表';
 
 CREATE TABLE `study_log` (
-	`log_id`      VARCHAR(32) NOT NULL,
-	`user_id`     VARCHAR(32) NOT NULL,
-	`detail_id`   VARCHAR(32) NOT NULL,
-	`is_complete` TINYINT(3)  NOT NULL DEFAULT '0'
+	`log_id`        VARCHAR(32) NOT NULL,
+	`user_id`       VARCHAR(32) NOT NULL,
+	`detail_id`     VARCHAR(32) NOT NULL,
+	`category_type` INT         NOT NULL
+	COMMENT '类目编号',
+	`is_complete`   TINYINT(3)  NOT NULL DEFAULT '0'
 	COMMENT '是否已完成',
-	`record`      VARCHAR(32) NOT NULL DEFAULT '0'
+	`record`        VARCHAR(32) NOT NULL DEFAULT '0'
 	COMMENT '记录播放时间，已完成则置为0',
-	`create_time` TIMESTAMP   NOT NULL DEFAULT current_timestamp
+	`create_time`   TIMESTAMP   NOT NULL DEFAULT current_timestamp
 	COMMENT '创建时间',
-	`update_time` TIMESTAMP   NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp
+	`update_time`   TIMESTAMP   NOT NULL DEFAULT current_timestamp ON UPDATE current_timestamp
 	COMMENT '更新时间',
 	PRIMARY KEY (`log_id`),
 	KEY `idx_user_id` (`user_id`)
