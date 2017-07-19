@@ -10,7 +10,7 @@
 		<!--滚动策略-->
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--输出路径-->
-			<fileNamePattern>logs/log/online-study.%d.log</fileNamePattern>
+			<fileNamePattern>${user.dir}/logs/log/online-study.%d.log</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>【xkcoding】%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
@@ -26,12 +26,37 @@
 		<!--滚动策略-->
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
 			<!--输出路径-->
-			<fileNamePattern>logs/error/online-study.%d.error</fileNamePattern>
+			<fileNamePattern>${user.dir}/logs/error/online-study.%d.error</fileNamePattern>
 		</rollingPolicy>
 		<encoder>
 			<pattern>【xkcoding】%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
 		</encoder>
 	</appender>
+
+	<!--
+	logger
+	   属性：
+		  1)name:用来指定受此logger约束的某一个包或者具体的某一个类
+		  2)level:用来设置打印级别，大小写无关（最常用的几种）：DEBUG, INFO, WARN, ERROR
+	-->
+
+	<!-- 用于打印 Spring 在启动的时候初始化各个 Bean 的信息 -->
+	<logger name="org.springframework.web" level="DEBUG"/>
+
+	<!-- mybatis日志打印 在ssm中，可能就需要下边的7行了。-->
+	<!--<logger name="com.ibatis" level="DEBUG" />-->
+	<!--<logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG" />-->
+	<!--<logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG" />-->
+	<!--<logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" />-->
+
+	<!--<logger name="java.sql.Connection" level="DEBUG" />-->
+	<!--<logger name="java.sql.Statement" level="DEBUG" />-->
+	<!--<logger name="java.sql.PreparedStatement" level="DEBUG" />-->
+
+	<!-- 以下这一句至关重要如果没有，就无法输出 sql 语句 -->
+	<!--注意：在 spring boot 中，想在控制台打印 mybatis 的 sql 语句，只需要配置下边这一句就好了。-->
+	<!--即将 mapper 接口打入 logger 就行。-->
+	<logger name="com.xkcoding.dao" level="DEBUG"></logger>
 
 	<root level="info">
 		<appender-ref ref="consoleLog"/>
